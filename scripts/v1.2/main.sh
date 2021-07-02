@@ -6,7 +6,8 @@ venv_create=$2
 venv_in_project=$3
 venv_path=$4
 version=$5
-installation_script=$6
+poetry_home_path=$6
+installation_script=$7
 
 # Define OS specific help text
 if [ "$os" == "Windows" ]; then
@@ -33,10 +34,14 @@ if [ "$os" == "Windows" ]; then
 fi
 echo -e '\n-------------------------------------------------------------------------------\n'
 
-if [ "$os" == "Windows" ]; then
-  path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
+if [ "$poetry_home_path" == "default" ]; then
+  if [ "$os" == "Windows" ]; then
+    path="C:/Users/runneradmin/AppData/Roaming/Python/Scripts/"
+  else
+    path="$HOME/.local/"
+  fi
 else
-  path="$HOME/.local/"
+  path="$poetry_home_path"
 fi
 
 POETRY_HOME=$path python3 $installation_script --yes --version=$version
